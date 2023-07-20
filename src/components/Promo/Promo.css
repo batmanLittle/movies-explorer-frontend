@@ -1,0 +1,50 @@
+.promo {
+  background-color: rgba(7, 48, 66, 1);
+}
+.promo__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 82px;
+  padding-bottom: 122px;
+  position: relative;
+}
+.promo__title {
+  color: white;
+  position: absolute;
+  top: 195px;
+  font-family: "Inter", sans-serif;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  text-align: center;
+  letter-spacing: -2px;
+  margin: 0px;
+  max-width: 730px;
+}
+@media screen and (max-width: 800px) {
+  .promo__container {
+    padding-top: 224px;
+    padding-bottom: 240px;
+  }
+  .promo__title {
+    top: 326px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .promo__container {
+    padding-top: 142px;
+    padding-bottom: 180px;
+  }
+  .promo__logo {
+    width: 248px;
+    height: 248px;
+  }
+  .promo__title {
+    top: 204px;
+    max-width: 317px;
+    font-size: 31px;
+    font-weight: 400;
+    line-height: 39px;
+  }
+}

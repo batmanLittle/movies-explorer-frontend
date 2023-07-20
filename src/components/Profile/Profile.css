@@ -1,0 +1,107 @@
+.profile {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile__block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 410px;
+  width: 100%;
+}
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.profile__title {
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 29px;
+  margin-top: 74px;
+  margin-bottom: 123px;
+}
+.profile__label {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 13px;
+}
+.profile__label_border {
+  border-bottom: 1px solid rgba(66, 66, 66, 1);
+  padding-bottom: 16px;
+  margin-bottom: 17px;
+}
+.profile__input {
+  text-align: right;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 13px;
+  background-color: inherit;
+  border: 0px;
+}
+.profile__buttom {
+  margin-top: 220px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  background-color: inherit;
+  border: 0px;
+}
+.profile__buttom:hover {
+  opacity: 80%;
+  cursor: pointer;
+}
+.profile__link {
+  margin-top: 16px;
+  color: rgba(238, 52, 101, 1);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: none;
+}
+.profile__link:hover {
+  opacity: 70%;
+  cursor: pointer;
+}
+@media screen and (max-width: 800px) {
+  .profile__title {
+    margin-top: 236px;
+    margin-bottom: 96px;
+  }
+  .profile__buttom {
+    margin-top: 210px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .profile__block {
+    max-width: 260px;
+  }
+  .profile__title {
+    margin-top: 70px;
+    margin-bottom: 80px;
+  }
+  .profile__buttom {
+    margin-top: 379px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .profile__link {
+    font-size: 12px;
+    line-height: 13px;
+  }
+}
