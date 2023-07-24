@@ -1,0 +1,19 @@
+html {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+
+body {
+  background-color: rgba(32, 32, 32, 1);
+  margin-top: 0px;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+#intro {
+  height: 100vh;
+}
