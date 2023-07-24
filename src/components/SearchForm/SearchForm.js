@@ -1,7 +1,7 @@
 import React from "react";
 import "./SearchForm.css";
-import icon from "../../images/search-icon.png";
-import sumbit from "../../images/icon-search2.png";
+import icon from "../../images/icon-search.svg";
+import sumbit from "../../images/icon-search2.svg";
 
 function SearchForm() {
   return (

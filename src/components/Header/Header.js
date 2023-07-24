@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./Header.css";
-import logo from "../../images/logo.png";
+import logo from "../../images/logo.svg";
 import account from "../../images/icon-account.png";
-import menu from "../../images/icon-menu.png";
+import menu from "../../images/icon-menu.svg";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 
@@ -20,7 +20,7 @@ function Header() {
   return (
     <>
       {location.pathname === "/" ? (
-        <header className="header header__promo">
+        <header className="header header_promo">
           <div className="header__block">
             <Link to="/" className="header__logo">
               <img src={logo} alt="Логотип" />

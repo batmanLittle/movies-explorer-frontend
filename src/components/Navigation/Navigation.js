@@ -2,7 +2,7 @@ import React from "react";
 import "./Navigation.css";
 import account from "../../images/icon-account.png";
 import { Link, NavLink } from "react-router-dom";
-import icon from "../../images/icon-closed.png";
+import icon from "../../images/icon-closed.svg";
 
 function Navigation({ handleClose }) {
   return (

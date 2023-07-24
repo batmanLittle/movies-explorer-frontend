@@ -9,6 +9,7 @@
   align-items: center;
   gap: 621px;
   z-index: 5;
+  position: fixed;
 }
 .navigation__container {
   display: flex;

@@ -1,5 +1,5 @@
 import "./AboutMe.css";
-import photo from "../../images/photo-me.png";
+import photo from "../../images/photo-me.svg";
 import React from "react";
 
 function AboutMe() {

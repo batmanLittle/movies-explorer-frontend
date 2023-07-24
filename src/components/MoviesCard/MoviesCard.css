@@ -15,7 +15,7 @@
   margin: 0px;
 }
 .movies-card__like_active {
-  background-image: url(../../images/icon-like.png);
+  background-image: url(../../images/icon-like.svg);
   background-repeat: no-repeat;
   border: none;
   background-color: transparent;
@@ -24,7 +24,7 @@
   height: 24px;
 }
 .movies-card__like_inactive {
-  background-image: url(../../images/icon-like-inactiv.png);
+  background-image: url(../../images/icon-like-inactiv.svg);
 
   background-repeat: no-repeat;
   border: none;
@@ -34,7 +34,7 @@
   height: 24px;
 }
 .movies-card__like_delete {
-  background-image: url(../../images/icon-delete.png);
+  background-image: url(../../images/icon-delete.svg);
   background-repeat: no-repeat;
   border: none;
   background-color: transparent;

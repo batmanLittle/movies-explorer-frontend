@@ -1,4 +1,4 @@
-import img from "../images/pic__COLOR_pic.png";
+import img from "../images/pic__COLOR_pic.svg";
 
 const movies = [
   {

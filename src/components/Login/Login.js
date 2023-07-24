@@ -1,5 +1,5 @@
 import "./Login.css";
-import headerLogo from "../../images/logo.png";
+import headerLogo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -13,20 +13,18 @@ export default function Login() {
           <input
             className="login__input"
             type="email"
-            placeholder=""
+            placeholder="email"
             name="email"
             id="email"
-            value="pochta@yandex.ru"
             required
           />
           <label className="login__label">Пароль</label>
           <input
             className="register__input"
             type="password"
-            placeholder=""
+            placeholder="пароль"
             name="password"
             id="password"
-            value=""
             required
           />
 

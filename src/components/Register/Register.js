@@ -1,5 +1,5 @@
 import "./Register.css";
-import headerLogo from "../../images/logo.png";
+import headerLogo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 
 export default function Register() {
@@ -13,32 +13,33 @@ export default function Register() {
           <input
             className="register__input"
             type="text"
-            placeholder=""
+            placeholder="name"
             name="name"
             id="name"
-            value="Виталий"
             minlength="2"
-            maxlength="30"
+            maxlength="40"
             required
           />
           <label className="register__label">E-mail</label>
           <input
             className="register__input"
             type="email"
-            placeholder=""
+            placeholder="email"
             name="email"
             id="email"
-            value="pochta@yandex.ru"
+            minlength="2"
+            maxlength="40"
             required
           />
           <label className="register__label">Пароль</label>
           <input
             className="register__input"
             type="password"
-            placeholder=""
+            placeholder="пароль"
             name="password"
             id="password"
-            value="••••••••••••••"
+            minlength="4"
+            maxlength="40"
             required
           />
 

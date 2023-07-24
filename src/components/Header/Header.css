@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
 }
-.header__promo {
+.header_promo {
   background-color: rgba(7, 48, 66, 1);
 }
 .header__block {
