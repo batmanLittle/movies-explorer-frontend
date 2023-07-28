@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SearchForm.css";
 import icon from "../../images/icon-search.svg";
 import sumbit from "../../images/icon-search2.svg";
 
-function SearchForm() {
+function SearchForm({ sumbitMovies }) {
+  const [value, setValue] = useState("");
+
+  function handleChange(event) {
+    setValue(event.target.value);
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
+    sumbitMovies();
+  }
   return (
     <section className="search">
       <div className="search__container">
-        <form className="search__form">
+        <form className="search__form" onSubmit={handleSubmit}>
           <div className="search__block">
             <div className="search__form-movie">
               <img className="search__img" src={icon} alt="иконка поиска" />
-              <input placeholder="Фильм" className="search__input"></input>
+              <input
+                placeholder="Фильм"
+                className="search__input"
+                onChange={handleChange}
+                name="search"
+                type="text"
+              ></input>
             </div>
             <button className="search__button" type="submit">
               <img src={sumbit} alt="кнопка" />

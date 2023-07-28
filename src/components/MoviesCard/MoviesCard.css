@@ -55,17 +55,19 @@
   object-fit: cover;
   background-position: center;
   width: 100%;
-  max-height: 210px;
+  height: 151px;
 }
+/* .movies-card__trailer {
+  z-index: 5;
+} */
 @media screen and (max-width: 768px) {
   .movies-card__element {
     display: flex;
     margin-bottom: 25px;
   }
-  /* .movies-card__image {
-    width: 339px;
+  .movies-card__image {
     height: 190px;
-  } */
+  }
 }
 @media screen and (max-width: 400px) {
   .movies-card__title {
@@ -80,8 +82,7 @@
   /* .movies-card {
     max-height: 246px;
   } */
-  /* .movies-card__image {
-    width: 300px;
+  .movies-card__image {
     height: 168px;
-  }  */
+  }
 }
