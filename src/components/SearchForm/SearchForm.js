@@ -11,7 +11,7 @@ function SearchForm({ sumbitMovies }) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    sumbitMovies();
+    sumbitMovies(value);
   }
   return (
     <section className="search">

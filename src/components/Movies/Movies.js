@@ -11,14 +11,18 @@ import MoviesApi from "../../utils/MoviesApi";
 export default function Movies() {
   const [cards, setCards] = useState([]);
 
-  function sumbitMovies() {
+  // console.log(setNewCards);
+  function sumbitMovies(value) {
     MoviesApi.getCards()
       .then((cards) => {
-        setCards(cards);
+        // filterMovies(cards, value);
+        setCards(filterMovies(cards, value));
       })
       .catch((err) => {
         console.log(err);
       });
+
+    // setNewCards(filterMovies(cards, value));
   }
 
   return (
