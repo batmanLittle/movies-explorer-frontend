@@ -15,7 +15,7 @@ function Profile() {
               placeholder=""
               name="name"
               id="name"
-              value="Виталий"
+              defaultValue="Виталий"
               required
             />
           </label>
@@ -27,7 +27,7 @@ function Profile() {
               placeholder=""
               name="email"
               id="email"
-              value="pochta@yandex.ru"
+              defaultValue="pochta@yandex.ru"
               required
             />
           </label>

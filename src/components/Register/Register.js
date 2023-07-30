@@ -16,8 +16,6 @@ export default function Register() {
             placeholder="name"
             name="name"
             id="name"
-            minlength="2"
-            maxlength="40"
             required
           />
           <label className="register__label">E-mail</label>
@@ -27,8 +25,8 @@ export default function Register() {
             placeholder="email"
             name="email"
             id="email"
-            minlength="2"
-            maxlength="40"
+            minLength="2"
+            maxLength="40"
             required
           />
           <label className="register__label">Пароль</label>
@@ -38,8 +36,6 @@ export default function Register() {
             placeholder="пароль"
             name="password"
             id="password"
-            minlength="4"
-            maxlength="40"
             required
           />
 

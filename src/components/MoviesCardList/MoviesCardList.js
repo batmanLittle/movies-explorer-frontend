@@ -1,9 +1,16 @@
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import React, { useEffect, useState } from "react";
+import Preloader from "../Preloader/Preloader";
 // import { useLocation } from "react-router-dom";
-// import Preloader from "../Preloader/Preloader";
-export default function MoviesCardList({ movies }) {
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+
+export default function MoviesCardList({
+  movies,
+  isLoading,
+  isNotFound,
+  isErrorSearch,
+}) {
   const [shownMovies, setShownMovies] = useState(0);
   // const [isLoading, setIsLoading] = useState(false);
   // const location = useLocation();
@@ -50,32 +57,47 @@ export default function MoviesCardList({ movies }) {
           : "movies-card-list"
       }`}
     >
-      <div className="movies-card-list__container">
-        {movies.slice(0, shownMovies).map((card, id) => {
-          return (
-            <div key={id}>
-              <MoviesCard
-                title={card.nameRU}
-                duration={card.duration}
-                link={`https://api.nomoreparties.co/${card.image.url}`}
-                isLiked={card.isLiked}
-                trailerLink={card.trailerLink}
-              />
-            </div>
-          );
-        })}
-      </div>
+      {isLoading && <Preloader />}
+      {isNotFound && !isLoading && (
+        <InfoTooltip errorText={"Ничего не найдено"} />
+      )}
+      {isErrorSearch && !isLoading && !isNotFound && (
+        <InfoTooltip
+          errorText={
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+          }
+        />
+      )}
+      {!isErrorSearch && !isLoading && (
+        <>
+          <div className="movies-card-list__container">
+            {movies.slice(0, shownMovies).map((card, id) => {
+              return (
+                <div key={id}>
+                  <MoviesCard
+                    title={card.nameRU}
+                    duration={card.duration}
+                    link={`https://api.nomoreparties.co/${card.image.url}`}
+                    isLiked={card.isLiked}
+                    trailerLink={card.trailerLink}
+                  />
+                </div>
+              );
+            })}
+          </div>
 
-      <button
-        onClick={showMoreMovies}
-        className={`${
-          movies.length > shownMovies
-            ? "movies-card-list__button"
-            : "movies-card-list__button-inactive"
-        }`}
-      >
-        Ещё
-      </button>
+          <button
+            onClick={showMoreMovies}
+            className={`${
+              movies.length > shownMovies
+                ? "movies-card-list__button"
+                : "movies-card-list__button-inactive"
+            }`}
+          >
+            Ещё
+          </button>
+        </>
+      )}
     </section>
   );
 }
