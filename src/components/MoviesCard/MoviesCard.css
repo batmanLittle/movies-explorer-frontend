@@ -13,6 +13,7 @@
   line-height: 16px;
   color: white;
   margin: 0px;
+  max-width: 226px;
 }
 .movies-card__like_active {
   background-image: url(../../images/icon-like.svg);

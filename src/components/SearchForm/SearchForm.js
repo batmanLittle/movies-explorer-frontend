@@ -1,31 +1,116 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect, useContext } from "react";
+// import "./SearchForm.css";
+// import icon from "../../images/icon-search.svg";
+// import sumbit from "../../images/icon-search2.svg";
+// import { currentUserContext } from "../../contexts/CurrentUserContext.js";
+
+// function SearchForm({ sumbitMovies, isShortMovies, handleShortFilms }) {
+//   const [value, setValue] = useState(""); //состояние импута
+//   const [valueError, setValueError] = useState(false); //состояние ошибки импута
+//   const currentUser = useContext(currentUserContext);
+
+//   function handleChange(event) {
+//     setValue(event.target.value);
+//   }
+
+//   function handleSubmit(e) {
+//     e.preventDefault();
+//     //если поиск фильмов пустой, то выходит ошибка 'Введите ключевое слово'
+//     if (value.trim().length === 0) {
+//       setValueError(true);
+//     } else {
+//       setValueError(false);
+//       sumbitMovies(value);
+//     }
+//   }
+
+//   //вытаскиваем состояние импута при входе
+//   useEffect(() => {
+//     if (localStorage.getItem(`${currentUser}-movieSearch`)) {
+//       const value = localStorage.getItem(`${currentUser}-movieSearch`);
+//       console.log(value);
+//       setValue(value);
+//     }
+//   }, [currentUser]);
+
+//   return (
+//     <section className="search">
+//       <div className="search__container">
+//         <form className="search__form" onSubmit={handleSubmit}>
+//           <div className="search__block">
+//             <div className="search__form-movie">
+//               <img className="search__img" src={icon} alt="иконка поиска" />
+//               <input
+//                 placeholder="Фильм"
+//                 className="search__input"
+//                 onChange={handleChange}
+//                 name="search"
+//                 type="text"
+//                 value={value || ""}
+//               ></input>
+//               {valueError && (
+//                 <span className="search__form-error">
+//                   Нужно ввести ключевое слово
+//                 </span>
+//               )}
+//             </div>
+//             <button className="search__button" type="submit">
+//               <img src={sumbit} alt="кнопка" />
+//             </button>
+//           </div>
+//           <div className="search__form-toggle">
+//             <input
+//               className="search__checkbox"
+//               type="checkbox"
+//               id="toggle-button"
+//               onChange={handleShortFilms}
+//               checked={isShortMovies}
+//             />
+//             <label className="search__slider">Короткометражки</label>
+//           </div>
+//         </form>
+//       </div>
+//     </section>
+//   );
+// }
+// export default SearchForm;
+
+import React, { useState, useEffect, useContext } from "react";
 import "./SearchForm.css";
 import icon from "../../images/icon-search.svg";
 import sumbit from "../../images/icon-search2.svg";
+import { useLocation } from "react-router-dom";
 
-function SearchForm({ sumbitMovies, isShortMovies, handleShortFilms }) {
-  const [value, setValue] = useState("");
-  const [valueError, setValueError] = useState(false);
+function SearchForm({ onSearch, value, checkBox }) {
+  const [valueInput, setValueInput] = useState(value || ""); //состояние импута
+  const [valueError, setValueError] = useState(false); //состояние ошибки импута
+  const [isChecked, setIsChecked] = useState(checkBox || false);
+  // const currentUser = useContext(currentUserContext);
+  const location = useLocation();
+  const locationSavedMovies = location.pathname === "/saved-movies";
+
+  const handleCheckboxChange = (evt) => {
+    setIsChecked(evt.target.checked);
+    submit(evt.target.checked);
+  };
 
   function handleChange(event) {
-    setValue(event.target.value);
+    setValueInput(event.target.value);
   }
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (value.trim().length === 0) {
-      setValueError(true);
+
+  const submit = (checked) => {
+    if (locationSavedMovies) {
+      onSearch(valueInput, checked);
     } else {
-      setValueError(false);
-      sumbitMovies(value);
+      valueInput < 1 && setValueError(true);
+      onSearch(valueInput, checked);
     }
-  }
-  useEffect(() => {
-    console.log(localStorage.getItem(`movieSearch`));
-    if (localStorage.getItem(`movieSearch`)) {
-      const value = localStorage.getItem(`movieSearch`);
-      setValue(value);
-    }
-  }, []);
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    submit(isChecked);
+  };
 
   return (
     <section className="search">
@@ -40,7 +125,7 @@ function SearchForm({ sumbitMovies, isShortMovies, handleShortFilms }) {
                 onChange={handleChange}
                 name="search"
                 type="text"
-                value={value || ""}
+                value={valueInput}
               ></input>
               {valueError && (
                 <span className="search__form-error">
@@ -57,8 +142,8 @@ function SearchForm({ sumbitMovies, isShortMovies, handleShortFilms }) {
               className="search__checkbox"
               type="checkbox"
               id="toggle-button"
-              onChange={handleShortFilms}
-              checked={isShortMovies}
+              onChange={handleCheckboxChange}
+              checked={isChecked}
             />
             <label className="search__slider">Короткометражки</label>
           </div>

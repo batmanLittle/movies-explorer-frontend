@@ -14,7 +14,6 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 69px;
-  
 }
 
 .search__form {
@@ -30,12 +29,11 @@
   width: 100%;
   gap: 30px;
 }
-.search__form-error{
+.search__form-error {
   position: absolute;
   top: 0px;
   left: 10px;
 
-  
   text-align: center;
   font-style: normal;
   font-weight: 400;
@@ -58,7 +56,7 @@
   margin-left: 10px;
   background-color: rgba(47, 47, 47, 1);
   border: 0px;
-  width: 100%;
+  width: 90%;
 }
 .search__form-movie {
   display: flex;
@@ -101,7 +99,7 @@
   border: none;
   outline: none;
   background-color: black;
-  
+
   cursor: pointer;
   appearance: none;
 }
@@ -123,7 +121,6 @@
 }
 
 .search__checkbox:checked::after {
-
   height: 8px;
   width: 8px;
   position: absolute;
@@ -198,6 +195,9 @@
   }
   .search__input {
     margin-left: 0px;
+  }
+  .search__input:focus {
+    background-color: rgba(32, 32, 32, 1);
   }
   .search__input::placeholder {
     font-size: 14px;

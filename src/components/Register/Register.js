@@ -1,45 +1,108 @@
 import "./Register.css";
+import React, { useEffect } from "react";
 import headerLogo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
+import { useFormValidation } from "../hooks/useFormValidation";
 
-export default function Register() {
+export default function Register({
+  registerUser,
+  errorMesage,
+  setErrorMessage,
+}) {
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormValidation();
+
+  //Отправляем данные на сервер
+  function handleSubmit(e) {
+    e.preventDefault();
+    registerUser({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    });
+    setErrorMessage("");
+  }
+
+  //сброс формы
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+
   return (
     <section className="register">
       <div className="register__block">
         <img className="register__logo" src={headerLogo} alt="Логотип" />
         <h2 className="register__title">Добро пожаловать!</h2>
-        <form className="register__form">
-          <label className="register__label">Имя</label>
+        <form className="register__form" onSubmit={handleSubmit} noValidate>
+          <label className="register__label">
+            Имя
+            <span className="register__input-error">{errors.name}</span>
+          </label>
           <input
-            className="register__input"
+            className={
+              errors.name
+                ? "register__input register__input-color"
+                : "register__input"
+            }
             type="text"
-            placeholder="name"
             name="name"
             id="name"
             required
+            value={values.name || ""}
+            onChange={handleChange}
+            minLength={2}
+            maxLength={30}
+            pattern="[a-zA-ZА-яёЁ\-\s]*"
           />
-          <label className="register__label">E-mail</label>
+
+          <label className="register__label">
+            E-mail
+            <span className="register__input-error">{errors.email}</span>
+          </label>
           <input
-            className="register__input"
+            className={
+              errors.email
+                ? "register__input register__input-color"
+                : "register__input"
+            }
             type="email"
-            placeholder="email"
             name="email"
             id="email"
             minLength="2"
             maxLength="40"
             required
+            value={values.email || ""}
+            onChange={handleChange}
           />
-          <label className="register__label">Пароль</label>
+
+          <label className="register__label">
+            Пароль
+            <span className="register__input-error">{errors.password}</span>
+          </label>
           <input
-            className="register__input"
+            className={
+              errors.password
+                ? "register__input register__input-color"
+                : "register__input"
+            }
             type="password"
-            placeholder="пароль"
             name="password"
             id="password"
             required
+            value={values.password || ""}
+            onChange={handleChange}
+            minLength={3}
           />
-
-          <button className="register__buttom" type="submit">
+          <span className="register__error-server">{errorMesage}</span>
+          <button
+            className={
+              !isValid
+                ? "register__buttom register__buttom-disabled"
+                : "register__buttom"
+            }
+            type="submit"
+            disabled={!isValid}
+          >
             Зарегистрироваться
           </button>
           <p className="register__text">
