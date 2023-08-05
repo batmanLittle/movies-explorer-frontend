@@ -14,7 +14,6 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { currentUserContext } from "../../contexts/CurrentUserContext.js";
 
 import * as MainApi from "../../utils/MainApi";
-import Api from "../../utils/Api";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -22,8 +21,44 @@ function App() {
   const [errorMesage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const path = location.pathname;
+  // const path = location.pathname;
   const [loggedIn, setLoggedIn] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem("savedMovie", JSON.stringify(savedMovies));
+  }, [savedMovies]);
+
+  function handleCardAdd(card) {
+    const token = localStorage.getItem("token");
+    MainApi.addNewMovie(card, token)
+      .then((newMovie) => {
+        setSavedMovies([newMovie, ...savedMovies]);
+        console.log(newMovie);
+      })
+      .catch((err) => {
+        console.log("работает");
+      });
+  }
+
+  function updateUser({ name, email }) {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    MainApi.updateUser(name, email, token)
+      .then((data) => {
+        setLoggedIn(true);
+        setCurrentUser(data);
+
+        console.log(data.token);
+      })
+      .catch((err) => {
+        if (err === 409) {
+          setErrorMessage("Пользователь с таким email уже существует");
+        } else {
+          setErrorMessage("При регистрации пользователя произошла ошибка");
+        }
+      });
+  }
 
   // выход из аккаунта
   function logOut() {
@@ -34,68 +69,11 @@ function App() {
     localStorage.clear();
   }
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     const token = localStorage.getItem("token");
-  //     if (token) {
-  //       // проверим токен
-  //       MainApi.getUserData(token)
-  //         .then((res) => {
-  //           if (res) {
-  //             // авторизуем пользователя
-  //             setLoggedIn(true);
-  //             Api.getCurrentUser()
-  //               .then((res) => {
-  //                 setCurrentUser(res);
-  //                 console.log(res);
-  //               })
-  //               .catch((err) => {
-  //                 console.log(`Ошибка ${err}`);
-  //               });
-  //             navigate("/movies");
-  //           }
-  //           return res;
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         });
-  //     }
-  //   }
-  // }, []);
-
-  //получение информации о пользователе
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (loggedIn) {
-  //     MainApi.getUserData()
-  //       .then((res) => {
-  //         setCurrentUser(res);
-  //         console.log("dddd");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, []);
-
   // очистка ошибок при переходе на другие страницы
   useEffect(() => {
     setErrorMessage("");
   }, [location]);
 
-  // получение информации о пользователе
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     MainApi.getUserData()
-  //       .then((res) => {
-  //         console.log("fff");
-  //         setCurrentUser(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [loggedIn]);
   //Регистрация пользователя =>далее сразу авторизация => навигация на страницу фильмов
   const registerUser = ({ name, email, password }) => {
     MainApi.register(name, email, password)
@@ -175,12 +153,24 @@ function App() {
           />
           <Route
             path="/movies"
-            element={<ProtectedRoute element={Movies} loggedIn={loggedIn} />}
+            element={
+              <ProtectedRoute
+                savedMovies={savedMovies}
+                element={Movies}
+                loggedIn={loggedIn}
+                onLikeClick={handleCardAdd}
+              />
+            }
           />
           <Route
             path="/saved-movies"
             element={
-              <ProtectedRoute element={SavedMovies} loggedIn={loggedIn} />
+              <ProtectedRoute
+                element={SavedMovies}
+                loggedIn={loggedIn}
+                savedMovies={savedMovies}
+                setSavedMovies={setSavedMovies}
+              />
             }
           />
           <Route
@@ -222,6 +212,9 @@ function App() {
               <>
                 <Header />
                 <ProtectedRoute
+                  errorMesage={errorMesage}
+                  setErrorMessage={setErrorMessage}
+                  updateUser={updateUser}
                   loggedIn={loggedIn}
                   element={Profile}
                   logOut={logOut}

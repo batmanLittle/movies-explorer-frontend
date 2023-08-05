@@ -43,3 +43,58 @@ export const register = (name, email, password) => {
 export const getUserData = (token) => {
   return makeRequest("users/me", "GET", null, token);
 };
+
+export const updateUser = (name, email, token) => {
+  return makeRequest(
+    "users/me",
+    "PATCH",
+    {
+      name: `${name}`,
+      email: `${email}`,
+    },
+    token
+  );
+};
+
+export const addNewMovie = (data, token) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      country: data.country,
+      director: data.director,
+      duration: data.duration,
+      year: data.year,
+      description: data.description,
+      image: `${BASE_URL}${data.image.url}`,
+      trailerLink: data.trailerLink,
+      thumbnail: `${BASE_URL}${data.image.formats.thumbnail.url}`,
+      movieId: `${data.id}`,
+      nameRU: data.nameRU,
+      nameEN: data.nameEN,
+    }),
+  }).then((res) => {
+    if (!res.ok) {
+      return Promise.reject(res.status);
+    }
+    return res.json();
+  });
+};
+
+export const getSavedMovies = (token) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      return Promise.reject(res.status);
+    }
+    return res.json();
+  });
+};

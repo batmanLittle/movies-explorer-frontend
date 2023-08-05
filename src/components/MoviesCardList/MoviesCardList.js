@@ -2,7 +2,7 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import React, { useEffect, useState } from "react";
 import Preloader from "../Preloader/Preloader";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 export default function MoviesCardList({
@@ -10,10 +10,16 @@ export default function MoviesCardList({
   isLoading,
   isNotFound,
   isErrorSearch,
+  onLikeClick,
+  savedMovies,
 }) {
   const [shownMovies, setShownMovies] = useState(0);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const location = useLocation();
+
+  const location = useLocation();
+
+  // function getSavedMovieCard(savedMovies, card) {
+  //   return savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
+  // }
 
   function displayMovies() {
     const display = window.innerWidth;
@@ -70,32 +76,62 @@ export default function MoviesCardList({
       )}
       {!isErrorSearch && !isLoading && (
         <>
-          <div className="movies-card-list__container">
-            {movies.slice(0, shownMovies).map((card, id) => {
-              return (
-                <div key={id}>
-                  <MoviesCard
-                    title={card.nameRU}
-                    duration={card.duration}
-                    link={`https://api.nomoreparties.co/${card.image.url}`}
-                    isLiked={card.isLiked}
-                    trailerLink={card.trailerLink}
-                  />
-                </div>
-              );
-            })}
-          </div>
+          {location.pathname === "/movies" ? (
+            <>
+              <div className="movies-card-list__container">
+                {movies.slice(0, shownMovies).map((card, id) => {
+                  return (
+                    <div key={id}>
+                      <MoviesCard
+                        title={card.nameRU || card.nameEN}
+                        duration={card.duration}
+                        link={`https://api.nomoreparties.co/${card.image.url}`}
+                        isLiked={card.isLiked}
+                        trailerLink={card.trailerLink}
+                        onLikeClick={() => onLikeClick(card)}
+                        card={card}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
 
-          <button
-            onClick={showMoreMovies}
-            className={`${
-              movies.length > shownMovies
-                ? "movies-card-list__button"
-                : "movies-card-list__button-inactive"
-            }`}
-          >
-            Ещё
-          </button>
+              <button
+                onClick={showMoreMovies}
+                className={`${
+                  movies.length > shownMovies
+                    ? "movies-card-list__button"
+                    : "movies-card-list__button-inactive"
+                }`}
+              >
+                Ещё
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="movies-card-list__container">
+                {movies.map((card, _id) => {
+                  return (
+                    <div key={_id}>
+                      <MoviesCard
+                        title={card.nameRU}
+                        duration={card.duration}
+                        link={card.image}
+                        isLiked={card.isLiked}
+                        trailerLink={card.trailerLink}
+                        savedMovies={savedMovies}
+                        card={card}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button className={"movies-card-list__button-inactive"}>
+                Ещё
+              </button>
+            </>
+          )}
         </>
       )}
     </section>

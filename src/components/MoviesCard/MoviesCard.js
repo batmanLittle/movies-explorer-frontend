@@ -2,15 +2,26 @@ import "./MoviesCard.css";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export default function MoviesCard(movies) {
+export default function MoviesCard({
+  trailerLink,
+  link,
+  title,
+  duration,
+  onLikeClick,
+  savedMovies,
+  card,
+}) {
   const [isCardLiked, setIsCardLiked] = useState(false);
   const location = useLocation();
 
   const handleOnClick = () => {
     setIsCardLiked(!isCardLiked);
-    console.log(movies);
+    onLikeClick(card);
   };
 
+  // function handleLikeClick() {
+  //   onLikeClick(movies);
+  // }
   function transformDuration(duration) {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
@@ -26,16 +37,12 @@ export default function MoviesCard(movies) {
         className="movies-card__trailer"
         target="_blank"
         rel="noreferrer"
-        href={movies.trailerLink}
+        href={trailerLink}
       >
-        <img
-          src={movies.link}
-          alt={movies.title}
-          className="movies-card__image"
-        />
+        <img src={link} alt={title} className="movies-card__image" />
       </a>
       <div className="movies-card__element">
-        <h3 className="movies-card__title">{movies.title}</h3>
+        <h3 className="movies-card__title">{title}</h3>
         {location.pathname === "/movies" ? (
           <button
             type="button"
@@ -52,9 +59,7 @@ export default function MoviesCard(movies) {
           ></button>
         )}
       </div>
-      <div className="movies-card__duration">
-        {transformDuration(movies.duration)}
-      </div>
+      <div className="movies-card__duration">{transformDuration(duration)}</div>
     </section>
   );
 }

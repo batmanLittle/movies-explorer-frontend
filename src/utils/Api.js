@@ -2,7 +2,12 @@ class Api {
   constructor(basePath) {
     this._basePath = basePath;
   }
-
+  _getHeaders() {
+    return {
+      "Content-type": "application/json",
+      authorization: this._token,
+    };
+  }
   _getJson(res) {
     if (res.ok) {
       return res.json();
@@ -10,12 +15,15 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getCurrentUser() {
-    return fetch(`${this._basePath}/users/me`, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    }).then((res) => this._getJson(res));
+  updateUser(data) {
+    return fetch(`${this._basePath}/profile`, {
+      method: "PATCH",
+      headers: this._getHeaders(),
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+      }),
+    }).then(this._getJson);
   }
 }
 
