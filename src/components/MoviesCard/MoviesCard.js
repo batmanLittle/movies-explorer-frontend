@@ -15,14 +15,18 @@ export default function MoviesCard({
 }) {
   const [isCardLiked, setIsCardLiked] = useState(false);
   const location = useLocation();
+ 
 
   useEffect(() => {
-    console.log(savedMovies);
+  
     const isSavedMovie = location.pathname === "/saved-movies";
     if (!isSavedMovie) {
+
       const result = savedMovies.some((item) => card.id === item.movieId);
-      console.log(result);
       setIsCardLiked(result);
+      console.log("3.Это значение внутри карточки фильма");
+      console.log(savedMovies);
+
     }
   }, [savedMovies]);
 
@@ -40,6 +44,9 @@ export default function MoviesCard({
   const onDeleteClick = () => {
     handleDeleteMovie(card);
   };
+
+
+
   function transformDuration(duration) {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;

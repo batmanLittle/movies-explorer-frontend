@@ -7,7 +7,12 @@ import Footer from "../Footer/Footer";
 import MoviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 
-export default function Movies({ onLikeClick, savedMovies, setSavedMovies }) {
+export default function Movies({
+  onLikeClick,
+  savedMovies,
+  handleRemoveMovie,
+  getSavedMovies,
+}) {
   const [cards, setCards] = useState([]); //отфильтрованный массив по запросу
   const [isLoading, setIsLoading] = useState(false); //загрузка прелоадер
   const [isNotFound, setIsNotFound] = useState(false); //фильмы не найдены
@@ -18,34 +23,16 @@ export default function Movies({ onLikeClick, savedMovies, setSavedMovies }) {
 
   useEffect(() => {
     handleAllMovies();
-    console.log(isAllMovies);
-  }, []);
 
-  function handleRemoveMovie(movie) {
-    const token = localStorage.getItem("token");
-    const removeMovie = savedMovies.find((item) => movie.id === item.movieId);
-    return MainApi.removeMovie(removeMovie._id, token)
-      .then(() => {
-        const newMoviesList = savedMovies.filter((res) => {
-          if (movie.id === res.movieId || movie.movieId === res.movieId) {
-            return false;
-          } else {
-            return true;
-          }
-        });
-        setSavedMovies(newMoviesList);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+    console.log("5. Поиск туда сюда");
+    console.log(savedMovies);
+  }, []);
 
   function handleAllMovies() {
     setIsLoading(true);
     return MoviesApi.getCards()
       .then((res) => {
         setIsAllMovies(res);
-        // console.log(res);
         localStorage.setItem("allMovies", JSON.stringify(res));
       })
       .catch((err) => {
@@ -60,7 +47,7 @@ export default function Movies({ onLikeClick, savedMovies, setSavedMovies }) {
   function handleSearch(value, short) {
     localStorage.setItem("short", JSON.stringify(short));
     localStorage.setItem("value", JSON.stringify(value));
-    console.log("Происходит поиск фильмов");
+    // console.log("Происходит поиск фильмов");
     const moviesByQuery = isAllMovies.filter((movie) => {
       const movieRu = String(movie.nameRU)
         .toLowerCase()
@@ -72,9 +59,9 @@ export default function Movies({ onLikeClick, savedMovies, setSavedMovies }) {
         .includes(value.toLowerCase());
 
       const isShort = movie.duration <= 40;
-      if (value === "") {
-        return 0;
-      }
+      // if (value === "") {
+      //   return 0;
+      // }
       if (short) {
         return (movieRu || movieEn) && isShort;
       } else {
@@ -88,7 +75,7 @@ export default function Movies({ onLikeClick, savedMovies, setSavedMovies }) {
     }
     localStorage.setItem("moviesByQuery", JSON.stringify(moviesByQuery));
     setCards(moviesByQuery);
-    console.log(moviesByQuery);
+    getSavedMovies();
   }
 
   return (
