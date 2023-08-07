@@ -3,31 +3,29 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as MainApi from "../../utils/MainApi";
 
 export default function SavedMovies() {
   const [isNotFound, setIsNotFound] = useState(false); //фильмы не найдены
+  const [savedMovies, setSavedMovies] = useState(
+    JSON.parse(localStorage.getItem("savedMovie"))
+  );
+  const [savedResult, setSavedResult] = useState(savedMovies);
 
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [savedResult, setSavedResult] = useState([]);
-
-  useEffect(() => {
-    getSavedMovies();
-  }, []);
-
-  console.log(savedResult);
-  // console.log(savedMovies);
-  useEffect(() => {
-    localStorage.setItem("savedMovie", JSON.stringify(savedMovies));
-  }, [savedMovies]);
-
-  function getSavedMovies() {
+  function handleDeleteMovie(movie) {
     const token = localStorage.getItem("token");
-    return MainApi.getSavedMovies(token)
-      .then((res) => {
-        setSavedMovies(res);
-        // console.log(res);
+    return MainApi.removeMovie(movie._id, token)
+      .then(() => {
+        const newMoviesList = savedMovies.filter((res) => {
+          if (movie.id === res.movieId || movie.movieId === res.movieId) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        setSavedMovies(newMoviesList);
+        setSavedResult(newMoviesList);
       })
       .catch((err) => {
         console.log(err);
@@ -69,9 +67,10 @@ export default function SavedMovies() {
       <Header />
       <SearchForm onSearch={handleSearch} />
       <MoviesCardList
-        movies={savedMovies}
+        movies={savedResult}
         isNotFound={isNotFound}
         savedMovies={savedMovies}
+        handleDeleteMovie={handleDeleteMovie}
       />
       <Footer />
     </section>

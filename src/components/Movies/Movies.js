@@ -5,8 +5,9 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import MoviesApi from "../../utils/MoviesApi";
+import * as MainApi from "../../utils/MainApi";
 
-export default function Movies({ onLikeClick, savedMovies }) {
+export default function Movies({ onLikeClick, savedMovies, setSavedMovies }) {
   const [cards, setCards] = useState([]); //отфильтрованный массив по запросу
   const [isLoading, setIsLoading] = useState(false); //загрузка прелоадер
   const [isNotFound, setIsNotFound] = useState(false); //фильмы не найдены
@@ -17,13 +18,34 @@ export default function Movies({ onLikeClick, savedMovies }) {
 
   useEffect(() => {
     handleAllMovies();
+    console.log(isAllMovies);
   }, []);
+
+  function handleRemoveMovie(movie) {
+    const token = localStorage.getItem("token");
+    const removeMovie = savedMovies.find((item) => movie.id === item.movieId);
+    return MainApi.removeMovie(removeMovie._id, token)
+      .then(() => {
+        const newMoviesList = savedMovies.filter((res) => {
+          if (movie.id === res.movieId || movie.movieId === res.movieId) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        setSavedMovies(newMoviesList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   function handleAllMovies() {
     setIsLoading(true);
     return MoviesApi.getCards()
       .then((res) => {
         setIsAllMovies(res);
+        // console.log(res);
         localStorage.setItem("allMovies", JSON.stringify(res));
       })
       .catch((err) => {
@@ -66,6 +88,7 @@ export default function Movies({ onLikeClick, savedMovies }) {
     }
     localStorage.setItem("moviesByQuery", JSON.stringify(moviesByQuery));
     setCards(moviesByQuery);
+    console.log(moviesByQuery);
   }
 
   return (
@@ -79,6 +102,7 @@ export default function Movies({ onLikeClick, savedMovies }) {
         isErrorSearch={isErrorSearch}
         onLikeClick={onLikeClick}
         savedMovies={savedMovies}
+        handleRemoveMovie={handleRemoveMovie}
       />
       <Footer />
     </section>

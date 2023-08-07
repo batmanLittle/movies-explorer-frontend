@@ -69,7 +69,7 @@ export const addNewMovie = (data, token) => {
       duration: data.duration,
       year: data.year,
       description: data.description,
-      image: `${BASE_URL}${data.image.url}`,
+      image: `https://api.nomoreparties.co${data.image.url}`,
       trailerLink: data.trailerLink,
       thumbnail: `${BASE_URL}${data.image.formats.thumbnail.url}`,
       movieId: `${data.id}`,
@@ -87,6 +87,21 @@ export const addNewMovie = (data, token) => {
 export const getSavedMovies = (token) => {
   return fetch(`${BASE_URL}/movies`, {
     method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      return Promise.reject(res.status);
+    }
+    return res.json();
+  });
+};
+
+export const removeMovie = (movieId, token) => {
+  return fetch(`${BASE_URL}/movies/${movieId}`, {
+    method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

@@ -34,10 +34,30 @@ function App() {
     MainApi.addNewMovie(card, token)
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
+        // localStorage.setItem(
+        //   "savedMovie",
+        //   JSON.stringify([newMovie, ...savedMovies])
+        // );
         console.log(newMovie);
       })
       .catch((err) => {
         console.log("работает");
+      });
+  }
+
+  useEffect(() => {
+    getSavedMovies();
+  }, []);
+
+  function getSavedMovies() {
+    const token = localStorage.getItem("token");
+    return MainApi.getSavedMovies(token)
+      .then((res) => {
+        setSavedMovies(res);
+        localStorage.setItem("savedMovie", JSON.stringify(res));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 

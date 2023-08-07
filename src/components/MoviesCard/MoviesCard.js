@@ -1,5 +1,5 @@
 import "./MoviesCard.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function MoviesCard({
@@ -10,18 +10,36 @@ export default function MoviesCard({
   onLikeClick,
   savedMovies,
   card,
+  handleDeleteMovie,
+  handleRemoveMovie,
 }) {
   const [isCardLiked, setIsCardLiked] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    console.log(savedMovies);
+    const isSavedMovie = location.pathname === "/saved-movies";
+    if (!isSavedMovie) {
+      const result = savedMovies.some((item) => card.id === item.movieId);
+      console.log(result);
+      setIsCardLiked(result);
+    }
+  }, [savedMovies]);
+
   const handleOnClick = () => {
-    setIsCardLiked(!isCardLiked);
-    onLikeClick(card);
+    if (!isCardLiked) {
+      onLikeClick(card);
+      setIsCardLiked(isCardLiked);
+    } else {
+      console.log("Удаление");
+      handleRemoveMovie(card);
+      setIsCardLiked(!isCardLiked);
+    }
   };
 
-  // function handleLikeClick() {
-  //   onLikeClick(movies);
-  // }
+  const onDeleteClick = () => {
+    handleDeleteMovie(card);
+  };
   function transformDuration(duration) {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
@@ -55,7 +73,7 @@ export default function MoviesCard({
           <button
             type="button"
             className="movies-card__like_delete"
-            // onClick={handleOnClick}
+            onClick={onDeleteClick}
           ></button>
         )}
       </div>

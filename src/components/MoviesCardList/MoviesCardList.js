@@ -12,11 +12,12 @@ export default function MoviesCardList({
   isErrorSearch,
   onLikeClick,
   savedMovies,
+  handleDeleteMovie,
+  handleRemoveMovie,
 }) {
   const [shownMovies, setShownMovies] = useState(0);
 
   const location = useLocation();
-
   // function getSavedMovieCard(savedMovies, card) {
   //   return savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
   // }
@@ -90,6 +91,8 @@ export default function MoviesCardList({
                         trailerLink={card.trailerLink}
                         onLikeClick={() => onLikeClick(card)}
                         card={card}
+                        savedMovies={savedMovies}
+                        handleRemoveMovie={handleRemoveMovie}
                       />
                     </div>
                   );
@@ -121,6 +124,7 @@ export default function MoviesCardList({
                         trailerLink={card.trailerLink}
                         savedMovies={savedMovies}
                         card={card}
+                        handleDeleteMovie={handleDeleteMovie}
                       />
                     </div>
                   );
