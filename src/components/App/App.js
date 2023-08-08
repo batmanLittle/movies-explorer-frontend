@@ -12,7 +12,8 @@ import NotFound from "../NotFound/NotFound";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { currentUserContext } from "../../contexts/CurrentUserContext.js";
-import MoviesApi from "../../utils/MoviesApi";
+// import MovieApi from "../../utils/MoviesApi";
+import { getCards } from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 
 function App() {
@@ -60,7 +61,7 @@ function App() {
   //Отрисовка фильмов
   function handleAllMovies() {
     setIsLoading(true);
-    return MoviesApi.getCards()
+    return getCards()
       .then((res) => {
         setIsAllMovies(res);
         localStorage.setItem("allMovies", JSON.stringify(res));

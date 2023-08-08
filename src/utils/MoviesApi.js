@@ -1,28 +1,32 @@
-class MoviesApi {
-  constructor(basePath) {
-    this._basePath = basePath;
+const config = {
+  url: "https://api.nomoreparties.co/beatfilm-movies",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
+class Api {
+  constructor(config) {
+    this.url = config.url;
+    this.headers = config.headers;
   }
-  _getHeaders() {
-    return {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-type": "application/json",
-    };
+
+  getInitialMovies() {
+    return fetch(this.url, {
+      headers: this.headers,
+    }).then(this._checkResponse);
   }
-  _getJson(res) {
+
+  _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  }
 
-  getCards() {
-    return fetch(`${this._basePath}/beatfilm-movies`, {
-      headers: this._getHeaders(),
-    }).then(this._getJson);
+    // если ошибка, отклоняем промис
+    return Promise.reject(new Error("Произошла ошибка"));
   }
 }
-const api = new MoviesApi(
-  // "http://localhost:3001"
-  "https://api.nomoreparties.co"
-);
-export default api;
+
+const MovieApi = new Api(config);
+
+export const getCards = MovieApi.getInitialMovies.bind(MovieApi);
