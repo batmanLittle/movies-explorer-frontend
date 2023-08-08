@@ -31,7 +31,9 @@ export default function Register({
   return (
     <section className="register">
       <div className="register__block">
-        <img className="register__logo" src={headerLogo} alt="Логотип" />
+        <Link to="/" className="register__logo">
+          <img src={headerLogo} alt="Логотип" />
+        </Link>
         <h2 className="register__title">Добро пожаловать!</h2>
         <form className="register__form" onSubmit={handleSubmit} noValidate>
           <label className="register__label">

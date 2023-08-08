@@ -16,11 +16,7 @@ export default function MoviesCardList({
   handleRemoveMovie,
 }) {
   const [shownMovies, setShownMovies] = useState(0);
-
   const location = useLocation();
-  // function getSavedMovieCard(savedMovies, card) {
-  //   return savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
-  // }
 
   function displayMovies() {
     const display = window.innerWidth;

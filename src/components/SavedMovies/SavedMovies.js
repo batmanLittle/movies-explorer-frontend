@@ -3,8 +3,6 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
-import React, { useState, useEffect } from "react";
-import * as MainApi from "../../utils/MainApi";
 
 export default function SavedMovies({
   savedMovies,
@@ -13,6 +11,9 @@ export default function SavedMovies({
   savedResult,
   isValue,
   isShort,
+  isLoading,
+  isNotFound,
+  isErrorSearch,
 }) {
   return (
     <section className="movies">
@@ -22,6 +23,9 @@ export default function SavedMovies({
         movies={savedResult}
         savedMovies={savedMovies}
         handleDeleteMovie={handleDeleteMovie}
+        isLoading={isLoading}
+        isNotFound={isNotFound}
+        isErrorSearch={isErrorSearch}
       />
       <Footer />
     </section>

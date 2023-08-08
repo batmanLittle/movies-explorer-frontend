@@ -26,7 +26,9 @@ export default function Login({ loginUser, errorMesage, setErrorMessage }) {
   return (
     <section className="login">
       <div className="login__block">
-        <img className="login__logo" src={headerLogo} alt="Логотип" />
+        <Link to="/" className="login__logo">
+          <img src={headerLogo} alt="Логотип" />
+        </Link>
         <h2 className="login__title">Рады видеть!</h2>
         <form className="login__form" onSubmit={handleSubmit}>
           <label className="login__label">

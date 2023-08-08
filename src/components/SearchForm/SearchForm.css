@@ -31,7 +31,7 @@
 }
 .search__form-error {
   position: absolute;
-  top: 0px;
+  top: 75px;
   left: 10px;
 
   text-align: center;
@@ -39,7 +39,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: #2be080;
+  color: rgba(238, 52, 101, 1);
 }
 .search__block {
   display: flex;
@@ -57,6 +57,11 @@
   background-color: rgba(47, 47, 47, 1);
   border: 0px;
   width: 90%;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
 }
 .search__form-movie {
   display: flex;
@@ -199,6 +204,7 @@
   .search__input:focus {
     background-color: rgba(32, 32, 32, 1);
   }
+
   .search__input::placeholder {
     font-size: 14px;
   }

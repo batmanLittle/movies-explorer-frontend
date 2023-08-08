@@ -27,6 +27,7 @@ function Profile({ logOut, updateUser, errorMesage, setErrorMessage }) {
   const requireValidity =
     !isValid ||
     (currentUser.name === values.name && currentUser.email === values.email);
+
   return (
     <section className="profile">
       <div className="profile__block">
@@ -45,7 +46,6 @@ function Profile({ logOut, updateUser, errorMesage, setErrorMessage }) {
               pattern="[a-zA-ZА-яёЁ\-\s]*"
               minLength="2"
               maxLength="30"
-              // defaultValue={currentUser.name}
             />
             <span className="profile___input-error">{errors.name}</span>
           </label>
@@ -61,7 +61,6 @@ function Profile({ logOut, updateUser, errorMesage, setErrorMessage }) {
               minLength="2"
               maxLength="40"
               required
-              // defaultValue={currentUser.email}
             />
             <span className="profile___input-email">{errors.email}</span>
           </label>

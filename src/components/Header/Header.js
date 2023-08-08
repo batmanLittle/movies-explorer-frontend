@@ -6,7 +6,7 @@ import menu from "../../images/icon-menu.svg";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 
-function Header() {
+function Header({ loggedIn }) {
   const location = useLocation();
   const [isMiniMenuOpened, setIsMiniMenuOpened] = useState(false);
 
@@ -19,7 +19,7 @@ function Header() {
   }
   return (
     <>
-      {location.pathname === "/" ? (
+      {location.pathname === "/" && !loggedIn ? (
         <header className="header header_promo">
           <div className="header__block">
             <Link to="/" className="header__logo">

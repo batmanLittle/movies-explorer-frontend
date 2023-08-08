@@ -37,14 +37,18 @@
   line-height: 13px;
   position: relative;
 }
-.profile__error-server{
+.profile__error-server {
   position: absolute;
   bottom: 112px;
-  color: rgba(255, 0, 76, 1);
+  color: rgba(238, 52, 101, 1);
   text-align: center;
   width: 100%;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 12px;
 }
-.profile___input-email{
+.profile___input-email {
   position: absolute;
   color: rgba(238, 52, 101, 1);
   right: 0px;
@@ -55,7 +59,7 @@
   font-weight: 400;
   line-height: 12px;
 }
-.profile___input-error{
+.profile___input-error {
   position: absolute;
   color: rgba(238, 52, 101, 1);
   right: 0px;
@@ -90,7 +94,7 @@
   background-color: inherit;
   border: 0px;
 }
-.profile__buttom-disabled{
+.profile__buttom-disabled {
   opacity: 40%;
 }
 .profile__buttom:hover {

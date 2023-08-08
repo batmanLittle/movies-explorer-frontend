@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import "./SearchForm.css";
 import icon from "../../images/icon-search.svg";
 import sumbit from "../../images/icon-search2.svg";
@@ -8,7 +8,6 @@ function SearchForm({ onSearch, value, checkBox }) {
   const [valueInput, setValueInput] = useState(value || ""); //состояние импута
   const [valueError, setValueError] = useState(false); //состояние ошибки импута
   const [isChecked, setIsChecked] = useState(checkBox || false);
-  // const currentUser = useContext(currentUserContext);
   const location = useLocation();
   const locationSavedMovies = location.pathname === "/saved-movies";
 
@@ -25,8 +24,13 @@ function SearchForm({ onSearch, value, checkBox }) {
     if (locationSavedMovies) {
       onSearch(valueInput, checked);
     } else {
-      valueInput < 1 && setValueError(true);
-      onSearch(valueInput, checked);
+      if (valueInput < 1) {
+        setValueError(true);
+        onSearch(valueInput, checked);
+      } else {
+        setValueError(false);
+        onSearch(valueInput, checked);
+      }
     }
   };
 
