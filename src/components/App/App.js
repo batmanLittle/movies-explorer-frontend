@@ -41,7 +41,6 @@ function App() {
     if (
       (!loggedIn && location.pathname === "/movies") ||
       location.pathname === "/saved-movies" ||
-      location.pathname === "/" ||
       location.pathname === "/profile" ||
       location.pathname === "/signup" ||
       location.pathname === "/signin"

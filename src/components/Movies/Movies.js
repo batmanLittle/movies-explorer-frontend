@@ -1,5 +1,4 @@
 import "./Movies.css";
-import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
