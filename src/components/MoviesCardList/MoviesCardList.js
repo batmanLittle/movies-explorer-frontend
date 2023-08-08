@@ -14,9 +14,12 @@ export default function MoviesCardList({
   savedMovies,
   handleDeleteMovie,
   handleRemoveMovie,
+  isSavedNotFound,
 }) {
   const [shownMovies, setShownMovies] = useState(0);
   const location = useLocation();
+  const locationMovies = location.pathname === "/movies";
+  const locationSavedMovies = location.pathname === "/saved-movies";
 
   function displayMovies() {
     const display = window.innerWidth;
@@ -60,21 +63,22 @@ export default function MoviesCardList({
           : "movies-card-list"
       }`}
     >
-      {isLoading && <Preloader />}
-      {isNotFound && !isLoading && (
-        <InfoTooltip errorText={"Ничего не найдено"} />
-      )}
-      {isErrorSearch && !isLoading && !isNotFound && (
-        <InfoTooltip
-          errorText={
-            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
-          }
-        />
-      )}
-      {!isErrorSearch && !isLoading && (
-        <>
-          {location.pathname === "/movies" ? (
-            <>
+      <>
+        {locationMovies && (
+          <>
+            {isLoading && <Preloader />}
+            {isNotFound && !isLoading && (
+              <InfoTooltip errorText={"Ничего не найдено"} />
+            )}
+            {isErrorSearch && !isLoading && !isNotFound && (
+              <InfoTooltip
+                errorText={
+                  "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+                }
+              />
+            )}
+
+            {!isErrorSearch && !isLoading && (
               <div className="movies-card-list__container">
                 {movies.slice(0, shownMovies).map((card, id) => {
                   return (
@@ -94,20 +98,27 @@ export default function MoviesCardList({
                   );
                 })}
               </div>
+            )}
+            <button
+              onClick={showMoreMovies}
+              className={`${
+                movies.length > shownMovies
+                  ? "movies-card-list__button"
+                  : "movies-card-list__button-inactive"
+              }`}
+            >
+              Ещё
+            </button>
+          </>
+        )}
+        {locationSavedMovies && (
+          <>
+            {isLoading && <Preloader />}
+            {isSavedNotFound && !isLoading && (
+              <InfoTooltip errorText={"Ничего не найдено"} />
+            )}
 
-              <button
-                onClick={showMoreMovies}
-                className={`${
-                  movies.length > shownMovies
-                    ? "movies-card-list__button"
-                    : "movies-card-list__button-inactive"
-                }`}
-              >
-                Ещё
-              </button>
-            </>
-          ) : (
-            <>
+            {!isLoading && (
               <div className="movies-card-list__container">
                 {movies.map((card, _id) => {
                   return (
@@ -126,14 +137,11 @@ export default function MoviesCardList({
                   );
                 })}
               </div>
-
-              <button className={"movies-card-list__button-inactive"}>
-                Ещё
-              </button>
-            </>
-          )}
-        </>
-      )}
+            )}
+            <button className={"movies-card-list__button-inactive"}>Ещё</button>
+          </>
+        )}
+      </>
     </section>
   );
 }

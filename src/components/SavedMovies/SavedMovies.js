@@ -12,7 +12,7 @@ export default function SavedMovies({
   isValue,
   isShort,
   isLoading,
-  isNotFound,
+  isSavedNotFound,
   isErrorSearch,
 }) {
   return (
@@ -24,7 +24,7 @@ export default function SavedMovies({
         savedMovies={savedMovies}
         handleDeleteMovie={handleDeleteMovie}
         isLoading={isLoading}
-        isNotFound={isNotFound}
+        isSavedNotFound={isSavedNotFound}
         isErrorSearch={isErrorSearch}
       />
       <Footer />

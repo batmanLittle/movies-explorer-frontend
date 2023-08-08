@@ -30,6 +30,7 @@ function App() {
   const [isNotFound, setIsNotFound] = useState(false); //фильмы не найдены
   const [isErrorSearch, setIsErrorSearch] = useState(false); //ошибка сервера
   const [isAllMovies, setIsAllMovies] = useState([]); //все фильмы изначально
+  const [isSavedNotFound, setIsSavedIsNotFound] = useState(false); //фильмы не найдены
 
   const value = JSON.parse(localStorage.getItem("value")) || "";
   const short = JSON.parse(localStorage.getItem("short")) || false;
@@ -127,9 +128,9 @@ function App() {
       }
     });
     if (moviesByQuery.length === 0) {
-      setIsNotFound(true);
+      setIsSavedIsNotFound(true);
     } else {
-      setIsNotFound(false);
+      setIsSavedIsNotFound(false);
     }
     localStorage.setItem(
       "moviesByQuerySavedMovies",
@@ -356,7 +357,7 @@ function App() {
                 value={isValue}
                 checkBox={isShort}
                 isLoading={isLoading}
-                isNotFound={isNotFound}
+                isSavedNotFound={isSavedNotFound}
                 isErrorSearch={isErrorSearch}
               />
             }
