@@ -46,9 +46,9 @@ _В нём представлены:_
 
 ## _Ссылки:_
 
-- [FrontEnd](https://batmanmovies.nomoreparties.co/)
+- [Сайт с FrontEnd](https://batmanmovies.nomoreparties.co/)
 - [BackEnd](https://batman.nomoreparties.sbs)
 - [BackEnd со сторонним все фильмами](https://api.nomoreparties.co/beatfilm-movies)
-- Публичный IP адрес сервера — `51.250.23.182`
+- Публичный IP адрес сервера — `84.201.140.215`
 - [Макеты в Figma ](<https://www.figma.com/file/w2N5RQ3EMtlldVkqCZyGQ6/Diploma-(Copy)?type=design&node-id=891%3A3857&mode=design&t=oyfjy5zEgYfMKJDD-1>)
-- [Ссылка на Pull Request]()
+- [Ссылка на Pull Request](https://github.com/batmanLittle/movies-explorer-frontend/pull/14)
