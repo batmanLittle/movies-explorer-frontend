@@ -1,10 +1,15 @@
 import "./Login.css";
 import headerLogo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
-import { useFormValidation } from "../hooks/useFormValidation";
+import { useFormValidation } from "../../hooks/useFormValidation";
 import React, { useEffect } from "react";
 
-export default function Login({ loginUser, errorMesage, setErrorMessage }) {
+export default function Login({
+  loginUser,
+  errorMesage,
+  setErrorMessage,
+  isActiveFormBtn,
+}) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
 
@@ -68,7 +73,7 @@ export default function Login({ loginUser, errorMesage, setErrorMessage }) {
                 : "login__buttom"
             }
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || !isActiveFormBtn}
           >
             Войти
           </button>

@@ -11,15 +11,23 @@ export default function Movies({
   isErrorSearch,
   handleSearch,
   isNotFound,
-  value,
-  short,
+  valueMovies,
   isLoading,
   cards,
+  shortDuration,
+  setShortDuration,
+  setValueMovies,
 }) {
   return (
     <section className="movies">
       <Header />
-      <SearchForm onSearch={handleSearch} value={value} checkBox={short} />
+      <SearchForm
+        setValue={setValueMovies}
+        onSearch={handleSearch}
+        value={valueMovies}
+        isChecked={shortDuration}
+        setIsChecked={setShortDuration}
+      />
       <MoviesCardList
         movies={JSON.parse(localStorage.getItem("moviesByQuery")) || cards}
         isLoading={isLoading}

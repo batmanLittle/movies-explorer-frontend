@@ -3,22 +3,42 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
+import React, { useEffect } from "react";
 
 export default function SavedMovies({
   savedMovies,
   handleDeleteMovie,
   handleSearch,
   savedResult,
-  isValue,
   isShort,
   isLoading,
   isSavedNotFound,
   isErrorSearch,
+  shortDurationSM,
+  setShortDurationSM,
+  getSavedMovies,
+  setIsSavedIsNotFound,
+  valueMoviesSaved,
+  setValueMoviesSaved,
 }) {
+  useEffect(() => {
+    getSavedMovies();
+    setValueMoviesSaved("");
+    setShortDurationSM(false);
+    setIsSavedIsNotFound(false);
+  }, []);
+
   return (
     <section className="movies">
       <Header />
-      <SearchForm onSearch={handleSearch} value={isValue} checkBox={isShort} />
+      <SearchForm
+        onSearch={handleSearch}
+        value={valueMoviesSaved}
+        setValue={setValueMoviesSaved}
+        checkBox={isShort}
+        isChecked={shortDurationSM}
+        setIsChecked={setShortDurationSM}
+      />
       <MoviesCardList
         movies={savedResult}
         savedMovies={savedMovies}

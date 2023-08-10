@@ -4,6 +4,12 @@ import React, { useEffect, useState } from "react";
 import Preloader from "../Preloader/Preloader";
 import { useLocation } from "react-router-dom";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import {
+  WINDOW_DESCTOP_S,
+  WINDOW_TABLE_M,
+  WINDOW_TABLE_S,
+  BASE_URL,
+} from "../../utils/constants";
 
 export default function MoviesCardList({
   movies,
@@ -23,13 +29,13 @@ export default function MoviesCardList({
 
   function displayMovies() {
     const display = window.innerWidth;
-    if (display > 1279) {
+    if (display > WINDOW_DESCTOP_S) {
       setShownMovies(16);
-    } else if (display > 989) {
+    } else if (display > WINDOW_TABLE_M) {
       setShownMovies(12);
-    } else if (display > 629) {
+    } else if (display > WINDOW_TABLE_S) {
       setShownMovies(8);
-    } else if (display < 629) {
+    } else if (display < WINDOW_TABLE_S) {
       setShownMovies(5);
     }
   }
@@ -46,11 +52,11 @@ export default function MoviesCardList({
 
   function showMoreMovies() {
     const display = window.innerWidth;
-    if (display > 1279) {
+    if (display > WINDOW_DESCTOP_S) {
       setShownMovies(shownMovies + 4);
-    } else if (display > 989) {
+    } else if (display > WINDOW_TABLE_M) {
       setShownMovies(shownMovies + 3);
-    } else if (display < 989) {
+    } else if (display < WINDOW_TABLE_M) {
       setShownMovies(shownMovies + 2);
     }
   }
@@ -86,13 +92,14 @@ export default function MoviesCardList({
                       <MoviesCard
                         title={card.nameRU || card.nameEN}
                         duration={card.duration}
-                        link={`https://api.nomoreparties.co/${card.image.url}`}
+                        link={`${BASE_URL}${card.image.url}` || card.image}
                         isLiked={card.isLiked}
                         trailerLink={card.trailerLink}
                         onLikeClick={() => onLikeClick(card)}
                         card={card}
                         savedMovies={savedMovies}
                         handleRemoveMovie={handleRemoveMovie}
+                        handleDeleteMovie={handleDeleteMovie}
                       />
                     </div>
                   );
@@ -118,7 +125,7 @@ export default function MoviesCardList({
               <InfoTooltip errorText={"Ничего не найдено"} />
             )}
 
-            {!isLoading && (
+            {!isLoading && !isSavedNotFound && (
               <div className="movies-card-list__container">
                 {movies.map((card, _id) => {
                   return (
@@ -138,7 +145,7 @@ export default function MoviesCardList({
                 })}
               </div>
             )}
-            <button className={"movies-card-list__button-inactive"}>Ещё</button>
+            <button className={"movies-card-list__button-inactive"}>Еще</button>
           </>
         )}
       </>

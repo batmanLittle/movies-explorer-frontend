@@ -1,6 +1,7 @@
 import "./MoviesCard.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { ONE_HOUR } from "../../utils/constants";
 
 export default function MoviesCard({
   trailerLink,
@@ -30,7 +31,7 @@ export default function MoviesCard({
       setIsCardLiked(isCardLiked);
     } else {
       handleRemoveMovie(card);
-      setIsCardLiked(!isCardLiked);
+      setIsCardLiked(isCardLiked);
     }
   };
 
@@ -39,8 +40,8 @@ export default function MoviesCard({
   };
 
   function transformDuration(duration) {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
+    const hours = Math.floor(duration / ONE_HOUR);
+    const minutes = duration % ONE_HOUR;
     if (hours === 0) {
       return `${minutes}м`;
     } else {

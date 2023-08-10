@@ -12,14 +12,15 @@ import NotFound from "../NotFound/NotFound";
 import Profile from "../Profile/Profile";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { currentUserContext } from "../../contexts/CurrentUserContext.js";
-// import MovieApi from "../../utils/MoviesApi";
 import { getCards } from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
+import { SHORT_DURATION, CONFLICT_ERROR } from "../../utils/constants";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const path = location.pathname;
+  const [isActiveFormBtn, setIsActiveFormBtn] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
   const [errorMesage, setErrorMessage] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,30 +33,30 @@ function App() {
   const [isAllMovies, setIsAllMovies] = useState([]); //все фильмы изначально
   const [isSavedNotFound, setIsSavedIsNotFound] = useState(false); //фильмы не найдены
 
-  const value = JSON.parse(localStorage.getItem("value")) || "";
-  const short = JSON.parse(localStorage.getItem("short")) || false;
+  const [shortDuration, setShortDuration] = useState(
+    JSON.parse(localStorage.getItem("shortDuration")) || false
+  );
+  const [shortDurationSM, setShortDurationSM] = useState(false);
 
-  const isValue = "";
-  const isShort = false;
+  const [valueMovies, setValueMovies] = useState(
+    JSON.parse(localStorage.getItem("valueMovies")) || ""
+  );
+  const [valueMoviesSaved, setValueMoviesSaved] = useState("");
 
   useEffect(() => {
     if (
-      (!loggedIn && location.pathname === "/movies") ||
-      location.pathname === "/saved-movies" ||
-      location.pathname === "/profile" ||
-      location.pathname === "/signup" ||
-      location.pathname === "/signin"
+      (!loggedIn && path === "/movies") ||
+      path === "/saved-movies" ||
+      path === "/profile" ||
+      path === "/signup" ||
+      path === "/signin"
     ) {
-      navigate("/signin");
+      navigate("/");
     }
   }, []);
 
   useEffect(() => {
     handleAllMovies();
-  }, []);
-
-  useEffect(() => {
-    getSavedMovies();
   }, []);
 
   //Отрисовка фильмов
@@ -76,23 +77,23 @@ function App() {
   }
 
   //Поиск по всем фильмам
-  function handleSearch(value, short) {
-    localStorage.setItem("short", JSON.stringify(short));
-    localStorage.setItem("value", JSON.stringify(value));
+  function handleSearch(valueMovies, shortDuration) {
+    localStorage.setItem("shortDuration", JSON.stringify(shortDuration));
+    localStorage.setItem("valueMovies", JSON.stringify(valueMovies));
     const moviesByQuery = isAllMovies.filter((movie) => {
       const movieRu = String(movie.nameRU)
         .toLowerCase()
         .trim()
-        .includes(value.toLowerCase());
+        .includes(valueMovies.toLowerCase());
       const movieEn = String(movie.nameEN)
         .toLowerCase()
         .trim()
-        .includes(value.toLowerCase());
-      const isShort = movie.duration <= 40;
-      if (value === "") {
+        .includes(valueMovies.toLowerCase());
+      const isShort = movie.duration <= SHORT_DURATION;
+      if (valueMovies === "") {
         return 0;
       }
-      if (short) {
+      if (shortDuration) {
         return (movieRu || movieEn) && isShort;
       } else {
         return movieRu || movieEn;
@@ -110,18 +111,18 @@ function App() {
   }
 
   //Поиск по сохраненным фильмам
-  function handleSearchSavedMovies(isValue, isShort) {
+  function handleSearchSavedMovies(valueMoviesSaved, shortDurationSM) {
     const moviesByQuery = savedMovies.filter((movie) => {
       const movieRu = String(movie.nameRU)
         .toLowerCase()
         .trim()
-        .includes(isValue.toLowerCase());
+        .includes(valueMoviesSaved.toLowerCase());
       const movieEn = String(movie.nameEN)
         .toLowerCase()
         .trim()
-        .includes(isValue.toLowerCase());
-      const isMovieShort = movie.duration <= 40;
-      if (isShort) {
+        .includes(valueMoviesSaved.toLowerCase());
+      const isMovieShort = movie.duration <= SHORT_DURATION;
+      if (shortDurationSM) {
         return (movieRu || movieEn) && isMovieShort;
       } else {
         return movieRu || movieEn;
@@ -224,7 +225,7 @@ function App() {
         setErrorMessage("Данные обновлены!");
       })
       .catch((err) => {
-        if (err === 409) {
+        if (err === CONFLICT_ERROR) {
           setErrorMessage("Пользователь с таким email уже существует");
         } else {
           setErrorMessage("При регистрации пользователя произошла ошибка");
@@ -235,9 +236,14 @@ function App() {
   // выход из аккаунта
   function logOut() {
     navigate("/");
-    setCurrentUser(false);
+    setCurrentUser({});
     setLoggedIn(false);
     localStorage.clear();
+    setValueMovies("");
+    setIsNotFound(false);
+    setIsErrorSearch(false);
+    setShortDuration(false);
+    setCards([]);
   }
 
   // очистка ошибок при переходе на другие страницы
@@ -253,7 +259,7 @@ function App() {
         loginUser({ email, password });
       })
       .catch((err) => {
-        if (err === 409) {
+        if (err === CONFLICT_ERROR) {
           setErrorMessage("Пользователь с таким email уже существует");
         } else {
           setErrorMessage("При регистрации пользователя произошла ошибка");
@@ -263,6 +269,7 @@ function App() {
 
   //Авторизация
   const loginUser = ({ email, password }) => {
+    setIsActiveFormBtn(false);
     MainApi.authorize(email, password)
       .then((data) => {
         localStorage.setItem("token", data.token);
@@ -270,10 +277,12 @@ function App() {
         setCurrentUser(data);
         navigate("/movies", { replace: true });
         getSavedMovies();
+        setIsActiveFormBtn(true);
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
         setErrorMessage("Вы ввели неправильный логин или пароль");
+        setIsActiveFormBtn(true);
       });
   };
 
@@ -334,8 +343,10 @@ function App() {
                 handleRemoveMovie={handleRemoveMovie}
                 getSavedMovies={getSavedMovies}
                 handleSearch={handleSearch}
-                value={value}
-                checkBox={short}
+                valueMovies={valueMovies}
+                setValueMovies={setValueMovies}
+                shortDuration={shortDuration}
+                setShortDuration={setShortDuration}
                 cards={cards}
                 isLoading={isLoading}
                 isNotFound={isNotFound}
@@ -354,11 +365,16 @@ function App() {
                 savedMovies={savedMovies}
                 setSavedMovies={setSavedMovies}
                 handleDeleteMovie={handleDeleteMovie}
-                value={isValue}
-                checkBox={isShort}
+                valueMoviesSaved={valueMoviesSaved}
+                setValueMoviesSaved={setValueMoviesSaved}
+                shortDurationSM={shortDurationSM}
+                setShortDurationSM={setShortDurationSM}
                 isLoading={isLoading}
                 isSavedNotFound={isSavedNotFound}
+                setIsSavedIsNotFound={setIsSavedIsNotFound}
                 isErrorSearch={isErrorSearch}
+                getSavedMovies={getSavedMovies}
+                setErrorMessage={setErrorMessage}
               />
             }
           />
@@ -379,6 +395,7 @@ function App() {
             element={
               <>
                 <Login
+                  isActiveFormBtn={isActiveFormBtn}
                   loginUser={loginUser}
                   errorMesage={errorMesage}
                   setErrorMessage={setErrorMessage}

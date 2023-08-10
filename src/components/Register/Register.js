@@ -2,7 +2,7 @@ import "./Register.css";
 import React, { useEffect } from "react";
 import headerLogo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
-import { useFormValidation } from "../hooks/useFormValidation";
+import { useFormValidation } from "../../hooks/useFormValidation";
 
 export default function Register({
   registerUser,

@@ -4,10 +4,9 @@ import icon from "../../images/icon-search.svg";
 import sumbit from "../../images/icon-search2.svg";
 import { useLocation } from "react-router-dom";
 
-function SearchForm({ onSearch, value, checkBox }) {
-  const [valueInput, setValueInput] = useState(value || ""); //состояние импута
+function SearchForm({ onSearch, value, setValue, isChecked, setIsChecked }) {
   const [valueError, setValueError] = useState(false); //состояние ошибки импута
-  const [isChecked, setIsChecked] = useState(checkBox || false);
+
   const location = useLocation();
   const locationSavedMovies = location.pathname === "/saved-movies";
 
@@ -17,19 +16,19 @@ function SearchForm({ onSearch, value, checkBox }) {
   };
 
   function handleChange(event) {
-    setValueInput(event.target.value);
+    setValue(event.target.value);
   }
 
   const submit = (checked) => {
     if (locationSavedMovies) {
-      onSearch(valueInput, checked);
+      onSearch(value, checked);
     } else {
-      if (valueInput < 1) {
+      if (value < 1) {
         setValueError(true);
-        onSearch(valueInput, checked);
+        onSearch(value, checked);
       } else {
         setValueError(false);
-        onSearch(valueInput, checked);
+        onSearch(value, checked);
       }
     }
   };
@@ -52,7 +51,7 @@ function SearchForm({ onSearch, value, checkBox }) {
                 onChange={handleChange}
                 name="search"
                 type="text"
-                value={valueInput}
+                value={value}
               ></input>
               {valueError && (
                 <span className="search__form-error">

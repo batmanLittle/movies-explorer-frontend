@@ -1,7 +1,7 @@
 import "./Profile.css";
 import { currentUserContext } from "../../contexts/CurrentUserContext.js";
 import React, { useContext, useEffect } from "react";
-import { useFormValidation } from "../hooks/useFormValidation";
+import { useFormValidation } from "../../hooks/useFormValidation";
 
 function Profile({ logOut, updateUser, errorMesage, setErrorMessage }) {
   const currentUser = useContext(currentUserContext);
