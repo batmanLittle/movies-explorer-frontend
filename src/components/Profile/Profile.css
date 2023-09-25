@@ -35,6 +35,39 @@
   font-size: 11px;
   font-weight: 400;
   line-height: 13px;
+  position: relative;
+}
+.profile__error-server {
+  position: absolute;
+  bottom: 112px;
+  color: rgba(238, 52, 101, 1);
+  text-align: center;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 12px;
+}
+.profile___input-email {
+  position: absolute;
+  color: rgba(238, 52, 101, 1);
+  right: 0px;
+  bottom: 0px;
+  top: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+}
+.profile___input-error {
+  position: absolute;
+  color: rgba(238, 52, 101, 1);
+  right: 0px;
+  bottom: 0px;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
 }
 .profile__label_border {
   border-bottom: 1px solid rgba(66, 66, 66, 1);
@@ -61,6 +94,9 @@
   background-color: inherit;
   border: 0px;
 }
+.profile__buttom-disabled {
+  opacity: 40%;
+}
 .profile__buttom:hover {
   opacity: 80%;
   cursor: pointer;
@@ -73,6 +109,8 @@
   font-weight: 500;
   line-height: 16px;
   text-decoration: none;
+  background-color: inherit;
+  border: 0px;
 }
 .profile__link:hover {
   opacity: 70%;

@@ -29,6 +29,9 @@
   font-weight: 400;
   line-height: 17px;
   color: rgba(66, 133, 244, 1);
+  background-color: inherit;
+  border: 0px;
+  z-index: 5;
 }
 .not-found__link:hover {
   opacity: 70%;
